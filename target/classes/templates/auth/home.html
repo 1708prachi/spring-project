@@ -1,0 +1,557 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleNest | Black & Gold Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #996515;
+            --black: #0A0A0A;
+            --soft-black: #1A1A1A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(45deg, #D4AF37, #F9E076, #996515);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border {
+            border: 1px solid var(--gold);
+        }
+
+        .gold-bg {
+            background: linear-gradient(45deg, #D4AF37, #996515);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .cart-drawer {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-gold);
+            border-radius: 10px;
+        }
+		.profile-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: Gold; /* Professional Blue */
+  color: white;
+  text-decoration: none; /* Removes the underline */
+  border-radius: 25px; /* Rounded edges */
+  font-family: sans-serif;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* Change color when hovering */
+.profile-btn:hover {
+  background-color: #0056b3;
+}
+
+.icon {
+  margin-right: 8px;
+}
+    </style>
+</head>
+<body class="no-scrollbar">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-black/95 border-b border-gold/20 backdrop-blur-md">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <h1 class="text-3xl font-bold tracking-widest gold-gradient cursor-pointer" onclick="showView('home')">STYLENEST</h1>
+                <ul class="hidden md:flex gap-8 text-xs uppercase tracking-widest font-semibold text-white-800">
+                    <li><a href="javascript:void(0)" onclick="showView('home')" class="hover:text-gold transition-colors">Home</a></li>
+                    <li><a href="javascript:void(0)" onclick="showCategory('men')" class="hover:text-gold transition-colors">Men</a></li>
+                    <li><a href="javascript:void(0)" onclick="showCategory('women')" class="hover:text-gold transition-colors">Women</a></li>
+                </ul>
+            </div>
+
+            <div class="flex items-center gap-6">
+                
+                <button class="relative hover:scale-110 transition-transform" onclick="toggleCart()">
+                    <i data-lucide="shopping-bag" class="w-6 h-6 text-gold"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-gold text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </button>
+				
+                <button class="md:hidden text-gold" onclick="toggleMenu()"><i data-lucide="menu" class="w-6 h-6"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- VIEWS CONTAINER -->
+    <div id="view-home">
+        <!-- Hero Banner -->
+        <section class="relative h-[80vh] flex items-center overflow-hidden border-b border-gold/10">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Hero">
+            <div class="container mx-auto px-4 relative z-10">
+                <h3 class="text-gold tracking-[0.3em] uppercase mb-4 font-semibold">Limited Edition 2026</h3>
+                <h2 class="text-5xl md:text-8xl font-bold mb-6 leading-tight">THE <span class="gold-gradient">GOLDEN</span><br>STANDARD</h2>
+                <p class="text-gray-400 max-w-lg mb-10 text-lg">Experience luxury redefined. Our winter collection brings together the finest fabrics and imperial designs.</p>
+                <div class="flex gap-4">
+                    <button onclick="showCategory('men')" class="gold-bg text-black px-10 py-4 rounded-full font-bold hover:scale-105 transition-all">Shop Men</button>
+                    <button onclick="showCategory('women')" class="gold-bg text-black px-10 py-4 rounded-full font-bold hover:scale-105 transition-all">Shop Women</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Categories -->
+        <section class="py-24 container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">SHOP BY <span class="gold-gradient">GENDER</span></h2>
+                <div class="h-1 w-20 bg-gold mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div onclick="showCategory('men')" class="group relative h-[600px] overflow-hidden rounded-2xl cursor-pointer border border-gold/20">
+                    <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 category-overlay flex flex-col justify-end p-12">
+                        <h3 class="text-4xl font-bold mb-2">FOR HIM</h3>
+                        <p class="text-gold tracking-widest uppercase text-sm mb-6">Explore 15 Luxury Categories</p>
+                        <span class="inline-block w-fit border-b-2 border-gold pb-1 font-bold">DISCOVER NOW</span>
+                    </div>
+                </div>
+                <div onclick="showCategory('women')" class="group relative h-[600px] overflow-hidden rounded-2xl cursor-pointer border border-gold/20">
+                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 category-overlay flex flex-col justify-end p-12">
+                        <h3 class="text-4xl font-bold mb-2">FOR HER</h3>
+                        <p class="text-gold tracking-widest uppercase text-sm mb-6">Explore 15 Luxury Categories</p>
+                        <span class="inline-block w-fit border-b-2 border-gold pb-1 font-bold">DISCOVER NOW</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Category Detail View -->
+    <div id="view-category" class="hidden min-h-screen py-20">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-4 mb-12">
+                <button onclick="showView('home')" class="text-gold flex items-center gap-2 hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Home
+                </button>
+                <h2 id="category-title" class="text-5xl font-bold uppercase gold-gradient ml-4"></h2>
+            </div>
+            
+            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <section class="bg-soft-black py-16 border-y border-gold/10">
+        <div class="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <i data-lucide="gem" class="w-10 h-10 mx-auto mb-4 text-gold"></i>
+                <h4 class="font-bold text-lg mb-1">Premium Quality</h4>
+                <p class="text-gray-500 text-sm">Authentic luxury materials</p>
+            </div>
+            <div class="text-center">
+                <i data-lucide="package-check" class="w-10 h-10 mx-auto mb-4 text-gold"></i>
+                <h4 class="font-bold text-lg mb-1">Elite Packaging</h4>
+                <p class="text-gray-500 text-sm">Signature gold box</p>
+            </div>
+            <div class="text-center">
+                <i data-lucide="zap" class="w-10 h-10 mx-auto mb-4 text-gold"></i>
+                <h4 class="font-bold text-lg mb-1">Priority Shipping</h4>
+                <p class="text-gray-500 text-sm">Global 48-hour delivery</p>
+            </div>
+            <div class="text-center">
+                <i data-lucide="lock" class="w-10 h-10 mx-auto mb-4 text-gold"></i>
+                <h4 class="font-bold text-lg mb-1">Secure Vault</h4>
+                <p class="text-gray-500 text-sm">Military-grade protection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white pt-20 pb-10 border-t border-gold/10">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div>
+                <h3 class="text-2xl font-bold mb-6 gold-gradient tracking-widest">STYLENEST</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">The world's premier destination for luxury black and gold fashion. Curated for the few, delivered to the elite.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="p-2 border border-gold/20 rounded hover:border-gold transition-colors"><i data-lucide="instagram" class="w-4 h-4 text-gold"></i></a>
+                    <a href="#" class="p-2 border border-gold/20 rounded hover:border-gold transition-colors"><i data-lucide="twitter" class="w-4 h-4 text-gold"></i></a>
+                    <a href="#" class="p-2 border border-gold/20 rounded hover:border-gold transition-colors"><i data-lucide="facebook" class="w-4 h-4 text-gold"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 text-gold uppercase tracking-widest text-xs">Navigation</h4>
+                <ul class="text-gray-400 text-sm space-y-3">
+                    <li><a href="#" onclick="showView('home')" class="hover:text-gold">Home</a></li>
+                    <li><a href="#" onclick="showCategory('men')" class="hover:text-gold">Men's Boutique</a></li>
+                    <li><a href="#" onclick="showCategory('women')" class="hover:text-gold">Women's Atelier</a></li>
+                    <li><a href="#" class="hover:text-gold">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 text-gold uppercase tracking-widest text-xs">Customer Service</h4>
+                <ul class="text-gray-400 text-sm space-y-3">
+                    <li><a href="#" class="hover:text-gold">Track Order</a></li>
+                    <li><a href="#" class="hover:text-gold">Return Policy</a></li>
+                    <li><a href="#" class="hover:text-gold">Care Instructions</a></li>
+                    <li><a href="#" class="hover:text-gold">Contact Concierge</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 text-gold uppercase tracking-widest text-xs">Newsletter</h4>
+                <p class="text-gray-400 text-sm mb-4">Join the inner circle for exclusive updates.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your Email" class="bg-soft-black border border-gold/30 p-2 text-sm w-full focus:outline-none focus:border-gold">
+                    <button class="gold-bg text-black px-4 font-bold text-xs uppercase">Join</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center border-t border-gold/5 pt-10 text-xs text-gray-500 tracking-[0.2em]">
+            © 2026 STYLENEST LUXURY RETAIL. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeModal()"></div>
+        <div class="bg-soft-black border border-gold/30 rounded-2xl w-full max-w-5xl max-h-[95vh] overflow-y-auto relative z-10 p-6 md:p-10">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gold hover:scale-125 transition-transform">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <div id="modal-content" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-soft-black z-[70] shadow-2xl cart-drawer translate-x-full border-l border-gold/20 flex flex-col">
+        <div class="p-8 border-b border-gold/10 flex justify-between items-center bg-black">
+            <h3 class="text-2xl font-bold gold-gradient">Boutique Bag</h3>
+            <button onclick="toggleCart()" class="p-2 text-gold hover:bg-gold/10 rounded-full transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-8">
+            <!-- Items -->
+        </div>
+        <div class="p-8 border-t border-gold/10 bg-black space-y-6">
+            <div class="flex justify-between items-center">
+                <span class="text-gray-400 font-semibold">SUBTOTAL</span>
+                <span id="cart-total" class="text-2xl font-bold gold-gradient">₹0</span>
+            </div>
+            <button onclick="showCheckout()" class="w-full gold-bg text-black py-5 rounded-xl font-bold hover:scale-[1.02] transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                <i data-lucide="lock" class="w-5 h-5"></i> SECURE CHECKOUT
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/95" onclick="hideCheckout()"></div>
+        <div class="bg-soft-black border border-gold/40 rounded-3xl w-full max-w-lg relative z-10 p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)]">
+            <h3 class="text-3xl font-bold mb-2 gold-gradient">CONCIERGE DETAILS</h3>
+            <p class="text-gray-500 text-sm mb-8">Enter your delivery preferences for our priority courier.</p>
+            <form class="space-y-5" onsubmit="handlePayment(event)">
+                <input type="text" placeholder="Full Legal Name" required class="w-full p-4 bg-black border border-gold/20 rounded-xl focus:border-gold outline-none">
+                <input type="text" placeholder="Global Delivery Address" required class="w-full p-4 bg-black border border-gold/20 rounded-xl focus:border-gold outline-none">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Concierge Phone" required class="w-full p-4 bg-black border border-gold/20 rounded-xl focus:border-gold outline-none">
+                    <input type="email" placeholder="Email Address" required class="w-full p-4 bg-black border border-gold/20 rounded-xl focus:border-gold outline-none">
+                </div>
+                <div class="space-y-3 pt-4">
+                    <label class="block font-semibold text-gold text-xs uppercase tracking-widest">Payment Security</label>
+                    <div class="grid grid-cols-1 gap-3">
+                        <label class="flex items-center justify-between p-4 bg-black border border-gold/40 rounded-xl cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="payment" checked class="accent-gold">
+                                <span class="font-bold">Priority Card / UPI</span>
+                            </div>
+                            <i data-lucide="shield-check" class="w-5 h-5 text-gold"></i>
+                        </label>
+                        <label class="flex items-center justify-between p-4 bg-black border border-gold/20 rounded-xl cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="payment" class="accent-gold">
+                                <span class="font-bold">Cash on Concierge</span>
+                            </div>
+                            <i data-lucide="truck" class="w-5 h-5 text-gray-600"></i>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="w-full gold-bg text-black py-5 rounded-xl font-bold mt-6 shadow-xl uppercase tracking-[0.2em]">Complete Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // High quality thematic images (Men)
+        const menCatalog = [
+            { name: "Sovereign Dress Shirt", img: "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=800" },
+            { name: "Noir Graphic Tee", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-nX4fJmDWiFsp_kbZsxzblNnylG9tgSJLmQ&s" },
+            { name: "Obsidian Slim Jeans", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800" },
+            { name: "Regal Leather Jacket", img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800" },
+            { name: "Gold-Stitch Hoodie", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800" },
+            { name: "Imperial Velvet Blazer", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800" },
+            { name: "Chino Shorts", img: "data:image/jpeg;base64,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" },
+            { name: "Elite Track Pants", img: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRo7e79pA9S1HYWGoM22EPPh525sLGv5k_CRaiAdbHHAQhFaU4HQDQ64tB8yMoUdZsf7i1ao_SGa2aT7wpUJoBE4pHws3yPaQ" },
+            { name: "Royal Gold Kurta", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg70EVtNoXi9yN-p1C9OQxNMGn_rvI7O1fLQ&s" },
+            { name: "Luxe Sweatpants", img: "https://assets.ajio.com/medias/sys_master/root/20241231/PtRP/6773bbc00f47f80c872e401d/-473Wx593H-469710712-gravestonegrey-MODEL.jpg" },
+            { name: "Polo Grand Slam", img: "https://harperandneyer.com/cdn/shop/files/403326007_000200_2.jpg?v=1770197284&width=1200" },
+            { name: "Formal Wool Trousers", img: "data:image/jpeg;base64,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" },
+            { name: "Formal Shirt", img: "data:image/jpeg;base64,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" },
+            { name: "Dark Blue Denim Jacket", img: "https://images.jdmagicbox.com/quickquotes/images_main/dark-blue-denim-jacket-for-men-bthfv4k1.jpg" },
+            { name: "Baggy Mid-Rise Jeans", img: "https://assets.ajio.com/medias/sys_master/root/20240430/C6Hk/6630475505ac7d77bb332482/-1117Wx1400H-467162954-black-MODEL.jpg" }
+        ];
+
+        // High quality thematic images (Women)
+        const womenCatalog = [
+            { name: "Formal A-Line Trouser Suit-Set", img: "https://littleboxindia.com/cdn/shop/files/Formal_A-Line_Hem_Long_Sleeve_Waist_Coat_and_Flared_Trouser_Suit-Set_In_Black.jpg?v=1772003326" },
+            { name: "Gold-Trim Silk Top", img: "https://img.faballey.com/images/Product/MTT00009Z/d3.jpg" },
+            { name: "Banarasi Saree", img: "https://sudathi.com/cdn/shop/files/4339S685_1.jpg?v=1756404671&width=1100" },
+            { name: "A-Line Royal Kurti", img: "https://www.karmaplace.com/cdn/shop/files/NC2219C-1_47f56643-865c-430e-b139-f212b812d0e2.jpg?v=1756113433&width=430" },
+            { name: "Stiletto Fit Jeans", img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800" },
+            { name: "Pleated Midi Skirt", img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800" },
+            { name: "Flared High Rise Jeans", img: "https://m.media-amazon.com/images/I/716tArVZCpL._SY741_.jpg" },
+            { name: "Couture Hoodie", img: "https://m.media-amazon.com/images/I/61jsiSIhKZL._AC_SY879_.jpg" },
+            { name: "Luxe Palazzo", img: "https://lagorii.com/cdn/shop/files/18_30fc0b4e-eec4-4ea1-8507-d94b5627d524.jpg?v=1742633927" },
+            { name: "Breezy Blue Denim Shorts", img: "https://metalhawk.in/cdn/shop/products/MHWJN19650_2_823x.jpg?v=1661460904" },
+            { name: "Gold Zari Ethnic Set", img: "https://www.anaaraethnic.com/cdn/shop/files/7906.jpg?v=1761894690" },
+            { name: "Cashmere Overcoat", img: "https://cdn.shopify.com/s/files/1/2589/2230/files/MarcellaCoat-NaturalCamel-5_1024x1024.jpg?v=1768089950" },
+            { name: "Sequined Party Gown", img: "https://littleboxindia.com/cdn/shop/files/Black_Spaghetti_Strap_Bodycon_Maxi_Dress_With_Side_Slit.webp?v=1769795096" },
+            { name: "Silk Nightwear", img: "https://assets.myntassets.com/dpr_1.5,q_30,w_400,c_limit,fl_progressive/assets/images/2025/JANUARY/27/Eysfo5Qy_019ce747935147b88d9df1a06a98dd82.jpg" },
+            { name: "Yoga Elite Gear", img: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=800" }
+        ];
+
+        let cart = [];
+
+        function init() {
+            lucide.createIcons();
+            window.scrollTo(0,0);
+        }
+
+        function showView(viewName) {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-category').classList.add('hidden');
+            
+            document.getElementById('view-' + viewName).classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function showCategory(gender) {
+            const grid = document.getElementById('products-grid');
+            const title = document.getElementById('category-title');
+            const items = gender === 'men' ? menCatalog : womenCatalog;
+            
+            title.innerText = gender + "'s Elite Collection";
+            grid.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const basePrice = (gender === 'men' ? 4999 : 6999);
+                const price = basePrice + (index * 250);
+                const card = `
+                    <div onclick="openProductDetail('${item.name}', ${price}, '${item.img}')" class="product-card group cursor-pointer">
+                        <div class="relative aspect-[3/4] overflow-hidden rounded-xl bg-soft-black border border-gold/10">
+                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute bottom-4 left-4 right-4 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <button class="w-full gold-bg text-black py-2 rounded-lg font-bold text-xs uppercase tracking-widest">Boutique View</button>
+                            </div>
+                        </div>
+                        <div class="py-4">
+                            <h3 class="font-bold text-white text-lg truncate">${item.name}</h3>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="gold-gradient font-bold text-xl">₹${price}</span>
+                                <div class="flex items-center text-gold gap-1">
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    <span class="text-xs font-semibold">4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+            
+            showView('category');
+            lucide.createIcons();
+        }
+
+        function openProductDetail(name, price, img) {
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden bg-black border border-gold/20 shadow-2xl">
+                    <img src="${img}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <div class="mb-10">
+                        <span class="text-xs font-bold uppercase tracking-[0.4em] text-gold mb-4 block">Haute Couture 2026</span>
+                        <h2 class="text-5xl font-bold text-white leading-tight mb-4">${name}</h2>
+                        <div class="flex items-center gap-8">
+                            <span class="text-4xl font-bold gold-gradient tracking-tighter">₹${price}</span>
+                            <span class="text-gray-600 line-through text-lg">₹${price + 5000}</span>
+                            <span class="bg-gold/10 text-gold text-xs font-bold px-3 py-1 rounded-full border border-gold/30">Limited Edition</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-10">
+                        <div>
+                            <p class="text-gold uppercase tracking-[0.2em] text-xs font-bold mb-4">Select Size</p>
+                            <div class="flex gap-4">
+                                ${['S', 'M', 'L', 'XL'].map(s => `
+                                    <button class="w-14 h-14 border border-gold/20 rounded-xl font-bold hover:bg-white hover:text-black hover:border-gold transition-all flex items-center justify-center text-gray-400">
+                                        ${s}
+                                    </button>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-gold uppercase tracking-[0.2em] text-xs font-bold mb-4">Atelier Colors</p>
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-black border border-gold ring-offset-2 ring-offset-black ring-2 ring-gold"></div>
+                                <div class="w-10 h-10 rounded-full border border-gold/20" style="background: #1a1a1a"></div>
+                                <div class="w-10 h-10 rounded-full border border-gold/20" style="background: #D4AF37"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button onclick="addToCart('${name}', ${price}, '${img}')" class="bg-white text-black py-5 rounded-2xl font-bold hover:scale-[1.03] transition-all flex items-center justify-center gap-3">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i> ADD TO BAG
+                            </button>
+                            <button onclick="buyNow('${name}', ${price}, '${img}')" class="gold-bg text-black py-5 rounded-2xl font-bold hover:scale-[1.03] transition-all shadow-[0_10px_30px_rgba(212,175,55,0.3)]">
+                                PURCHASE NOW
+                            </button>
+                        </div>
+                        
+                        <div class="bg-black/40 p-6 rounded-2xl border border-gold/5">
+                            <p class="text-sm text-gray-400 leading-loose italic">
+                                "This masterpiece features 24k gold-thread embroidery and Italian obsidian fabric. A signature piece designed for the discerning individual who demands only the zenith of fashion."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        function addToCart(name, price, img) {
+            cart.push({ id: Date.now(), name, price, img });
+            updateCart();
+            closeModal();
+            toggleCart();
+        }
+
+        function buyNow(name, price, img) {
+            cart = [{ id: Date.now(), name, price, img }];
+            updateCart();
+            closeModal();
+            showCheckout();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItems.innerHTML += `
+                    <div class="flex gap-6 items-center group">
+                        <img src="${item.img}" class="w-24 h-32 object-cover rounded-xl border border-gold/20">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-white text-lg">${item.name}</h4>
+                            <p class="gold-gradient font-bold text-xl mt-1">₹${item.price}</p>
+                            <div class="flex items-center gap-4 mt-4">
+                                <button onclick="removeFromCart(${index})" class="text-white-500 hover:text-red-500 transition-colors text-xs flex items-center gap-2 font-bold uppercase tracking-widest">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartCount.innerText = cart.length;
+            cartTotal.innerText = `₹${total}`;
+            lucide.createIcons();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function showCheckout() {
+            if (cart.length === 0) {
+                alert("The boutique bag is empty.");
+                return;
+            }
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function hideCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handlePayment(e) {
+            e.preventDefault();
+            alert("Order Confirmed! Your items are being prepared for priority delivery. 🎉");
+            cart = [];
+            updateCart();
+            hideCheckout();
+            toggleCart();
+            showView('home');
+        }
+
+        function toggleMenu() {
+            alert("Luxury Concierge Menu coming soon.");
+        }
+
+        window.onload = init;
+    </script>
+	<script src='https://cdn.jotfor.ms/agent/embedjs/019d1b504be1746a9e668b61c953237ab4ce/embed.js'>
+</script>
+</body>
+</html>

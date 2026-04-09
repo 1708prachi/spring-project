@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Record</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Update Record</h2>
+
+    <form th:action="@{/update}" th:object="${user}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+            <label>username</label>
+            <input type="text" th:field="*{username}" class="form-control" required>
+        </div>
+
+	        <div class="mb-3">
+	            <label>Email</label>
+	            <input type="email" th:field="*{email}" class="form-control" required>
+	        </div>
+			<div class="mb-3">
+			            <label>password</label>
+			            <input type="password" th:field="*{password}" class="form-control" required>
+			        </div>
+
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="/display" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

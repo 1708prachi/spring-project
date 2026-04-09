@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- sweet alert-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+
+body{
+font-family:Poppins;
+margin:0;
+background:#f4f6f9;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:250px;
+background:#111;
+color:white;
+padding:30px;
+}
+
+.sidebar h2{
+margin-bottom:30px;
+}
+
+.sidebar ul{
+list-style:none;
+padding:0;
+}
+
+.sidebar ul li{
+margin:20px 0;
+}
+
+.sidebar ul li a{
+text-decoration:none;
+color:white;
+font-size:16px;
+}
+
+.content{
+flex:1;
+padding:40px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+max-width:600px;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#111;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<h2>User Panel</h2>
+
+<ul>
+<li><a href="#" onclick="showSection('profile')">My Profile</a></li>
+<li><a href="#" onclick="showSection('edit')">Edit Profile</a></li>
+<li><a href="#" onclick="showSection('pass')">Change Password</a></li>
+<li><a href="#" onclick="showSection('feedback')">Product Feedback</a></li>
+</ul>
+
+</div>
+
+<!-- Content -->
+
+<div class="content">
+
+<!-- PROFILE -->
+
+<div id="profile" class="section active">
+
+<div class="card">
+
+<h3>My Profile</h3>
+
+<p><b>Username :</b> <span th:text="${user.username}"></span></p>
+<p><b>Email :</b> <span th:text="${user.email}"></span></p>
+</div>
+
+</div>
+
+<!-- EDIT PROFILE -->
+
+<div id="edit" class="section">
+
+<div class="card">
+
+<h3>Edit Profile</h3>
+
+<form th:action="@{/updateProfile}" th:object="${user}" method="post">
+
+<input type="hidden" th:field="*{id}">
+
+<input type="text" th:field="*{username}" placeholder="Username">
+
+<input type="email" th:field="*{email}" placeholder="Email">
+
+<input type="password" th:field="*{password}" placeholder="Password">
+
+<button type="submit" onclick="edit_pro();">edit profile</button>    
+  
+   <script>
+   		function edit_pro(){
+   			 Swal.fire({
+   	                title: 'Success!',
+   	                text: 'Profile Edited Successfully!',
+   	                icon: 'success',
+   	                confirmButtonText: 'OK'
+   	            });	
+   			
+   		}
+   </script>
+
+</form>
+</div>
+
+</div>
+
+<!-- CHANGE PASSWORD -->
+
+<div id="pass" class="section">
+
+<div class="card">
+
+<h3>Change Password</h3>
+
+<form th:action="@{/changePassword}" method="post">
+
+<input type="password" name="oldPassword" placeholder="Current Password">
+
+<input type="password" name="newPassword" placeholder="New Password">
+
+<input type="password" name="confirmPassword" placeholder="Confirm Password">
+
+<button type="submit" onclick="password();">Change password</button>    
+   
+   <script>
+   		function password(){
+   			 Swal.fire({
+   	                title: 'Success!',
+   	                text: 'SweetAlert2 is working with CSS from CDN.',
+   	                icon: 'success',
+   	                confirmButtonText: 'OK'
+   	            });	
+   			
+   		}
+   </script>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- FEEDBACK -->
+
+<div id="feedback" class="section">
+
+<div class="card">
+
+<h3>Product Feedback</h3>
+
+<form th:action="@{/saveFeedback}" method="post">
+
+<input type="text" name="productName" placeholder="Product Name">
+
+<textarea name="message" placeholder="Write feedback"></textarea>
+
+<input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)">
+
+<button type="submit" onclick="feed_back();">Add Feedback</button>    
+<script>
+   		function feed_back(){
+   			 Swal.fire({
+   	                title: 'Success!',
+   	                text: 'feedback added successfully!',
+   	                icon: 'success',
+   	                confirmButtonText: 'OK'
+   	            });	
+   			
+   		}
+   </script>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showSection(sectionId){
+
+document.querySelectorAll('.section').forEach(section=>{
+section.classList.remove('active')
+})
+
+document.getElementById(sectionId).classList.add('active')
+
+}
+
+</script>
+
+</body>
+
+</html>
